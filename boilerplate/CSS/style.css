@@ -1,0 +1,12 @@
+@import url(reset.css);
+
+.slider__item{
+	height: 100vh;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+}
+canvas{
+	width: 100vw;
+	height: 100vh;
+}

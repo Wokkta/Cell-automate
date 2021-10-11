@@ -1,1 +1,2 @@
-import anime from 'animejs/lib/anime.es.js';
+import "animejs/lib/anime.es.js";
+console.log(window);

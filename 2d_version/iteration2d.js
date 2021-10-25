@@ -6,6 +6,7 @@ let cells = [
   [0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0]
 ];
+
 let el = document.querySelector("div");
 
 function showCells(matrix, element) {
@@ -18,7 +19,12 @@ function showCells(matrix, element) {
 
   }
 }
-
+function consoleMatrix(matrix,matrixName) {
+  console.log(matrixName)
+  for (let i=0;i<matrix.length;i++){
+    console.log(matrix[i],`row ${i}`)
+  }
+}
 function findingNeibors(i, j, matrix) {
 
   let sum = 0;
@@ -76,5 +82,5 @@ function iteration2d(matrix) {
   }
   return nextMatrix
 }
-console.log(iteration2d(cells));
+consoleMatrix(iteration2d(cells),'Matrix');
 console.log("end");

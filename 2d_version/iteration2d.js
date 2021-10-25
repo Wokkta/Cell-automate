@@ -1,71 +1,80 @@
+console.clear();
 let cells = [
-  "---------------",
-  "------*-*------",
-  "---------------",
-  "---------------",
-  "---------------",
-  "---------------"
+  [0, 0, 0, 0, 0],
+  [0, 1, 0, 0, 0],
+  [0, 1, 1, 1, 0],
+  [0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0]
 ];
-console.log(cells);
+let el = document.querySelector("div");
 
-let els = [1, 2, 3, 4, 5, 6];
-for (let i = 0; i < els.length; i++) {
-  els[i] = document.getElementById(els[i]);
-  els[i].innerHTML = cells[i];
-}
-/*
-let el = document.createElement("div");
-document.body.appendChild(el);
-*/
-let showCells = () => {
-  for (let i in cells) {
-    console.log("here ", i);
-    els[i].innerHTML = cells[i];
-    console.log(els[i].innerHTML);
+function showCells(matrix, element) {
+  element.innerHTML = "";
+  for (let i = 0; i < matrix.length; i++) {
+    element.innerHTML += "\n";
+    for (let j = 0; j < matrix[i].length; j++) {
+      element.innerHTML += matrix[i][j];
+    }
+
   }
-};
-/*
-y'[i][j] = f(y[i][j], y[i-1][j], y[i-1][j+1],
-y[i][j+1], y[i+1][j+1], y[i+1][j], y[i+1][j-1],
-y[i][j-1], y[i-1][j-1]). */
-function findingNeibors(myArray, i, j) {
-  let rowLimit = myArray.length - 1;
-  let columnLimit = myArray[0].length - 1;
+}
+
+function findingNeibors(i, j, matrix) {
+
   let sum = 0;
+  let previousI = 0;
+  i - 1 < 0 ? (previousI = matrix.length - 1) : (previousI = i - 1);
+  let previousJ = 0;
+  j - 1 < 0 ? (previousJ = matrix[i].length - 1) : (previousI = j - 1);
+  let nextI = 0;
+  i + 1 > matrix.length - 1 ? (nextI = 0) : (nextI = i + 1);
+  let nextJ = 0;
+  j + 1 > matrix[i].length - 1 ? (nextJ = 0) : (nextJ = j + 1);
+  return [previousI, previousJ, i, j, nextI, nextJ]
+}
 
-  if (i < 0 || j < 0) {
-    //console.log("invalid Index");
-    //return;
-  }
+function summar(indexses, matrix) {
+  previousI = indexses[0]
+  previousJ = indexses[1]
+  indexI = indexses[2]
+  indexJ = indexses[3]
+  nextI = indexses[4]
+  nextJ = indexses[5]
+  sum =
+    matrix[previousI][previousJ] +
+    matrix[previousI][indexJ] +
+    matrix[previousI][nextJ] +
+    matrix[indexI][previousJ] +
+    matrix[indexI][nextJ] +
+    matrix[nextI][previousJ] +
+    matrix[nextI][indexJ] +
+    matrix[nextI][nextJ];
+  return sum
+}
 
-  if (i > rowLimit || j > columnLimit) {
-    //console.log("You are Out Of Bound");
-    //return;
-  }
-
-  for (let x = Math.max(0, i - 1); x <= Math.min(i + 1, rowLimit); x++) {
-    for (let y = Math.max(0, j - 1); y <= Math.min(j + 1, columnLimit); y++) {
-      if (x !== i || y !== j) {
-        //console.log(myArray[x][y], "here");
-        myArray[x][y] === "*" ? (sum += 1) : (sum += 0);
+function iteration2d(matrix) {
+  nextMatrix=[]
+  for (let i = 0; i < cells.length; i++) {
+    row=[]
+    for (let j = 0; j < cells[i].length; j++) {
+      neigbr = summar(findingNeibors(i, j, matrix), matrix);
+      switch (neigbr) {
+        case 0:
+          row.push(0)
+          break;
+        case 1:
+          row.push(0)
+          break;
+        case 2:
+          break;
+        default:
+          row.push(1)
       }
     }
-  }
-  return sum;
-}
-//console.log(findingNeibors(cells, 1, 7));
-function iteration2d() {
-  for (let i in cells) {
-    for (let j in cells[i]) {
-      if (findingNeibors(cells, i, j) >= 3) {
-        cells[i][j] = "*";
-      } else {
-        cells[i][j] = "-";
-      }
-    }
-  }
+    nextMatrix.push(row)
 
-  return cells;
+  }
+  return nextMatrix
 }
-console.log(1);
-showCells(iteration2d(cells));
+console.log(iteration2d(cells));
+console.log("end");

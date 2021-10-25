@@ -58,7 +58,7 @@ function summar(indexses, matrix) {
   return sum
 }
 
-function iteration2d(matrix) {
+function iteration2d(matrix,element) {
   nextMatrix=[]
   for (let i = 0; i < cells.length; i++) {
     row=[]
@@ -80,7 +80,8 @@ function iteration2d(matrix) {
     nextMatrix.push(row)
 
   }
+  showCells(matrix,element)
   return nextMatrix
 }
-consoleMatrix(iteration2d(cells),'Matrix');
+consoleMatrix(iteration2d(cells,el),'Matrix');
 console.log("end");

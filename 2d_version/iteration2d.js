@@ -73,8 +73,11 @@ function iteration2d(matrix,element) {
           break;
         case 2:
           break;
-        default:
+        case 3:
           row.push(1)
+          break;
+        default:
+          row.push(0)
       }
     }
     nextMatrix.push(row)
@@ -84,4 +87,10 @@ function iteration2d(matrix,element) {
   return nextMatrix
 }
 consoleMatrix(iteration2d(cells,el),'Matrix');
-console.log("end");
+testMatrix=[
+  [1,2,3,4,5],
+  [6,7,8,9,10],
+  [0,0,0,0,0]
+]
+showCells(testMatrix,el)
+consoleMatrix(testMatrix,'testMatrix')

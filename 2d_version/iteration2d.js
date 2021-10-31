@@ -1,3 +1,4 @@
+console.log(200))
 console.clear();
 let cells = [
   [0, 0, 0, 0, 0],
@@ -85,3 +86,30 @@ function iteration2d(matrix,element) {
 }
 consoleMatrix(iteration2d(cells,el),'Matrix');
 console.log("end");
+function testFinding(matrix){
+  indexesMatrix=[]
+  for(let i=0;i<matrix.length;i++){
+    row=[]
+    for (let j=0;j<matrix[i].length;j++){
+      summ=summar(findingNeibors(i, j, matrix), matrix);
+      row.push(summ)
+    }
+    indexesMatrix.push(row)
+  }
+  return indexesMatrix
+}
+matrixQ=[
+  [0,0,0,0],
+  [0,1,1,0],
+  [0,1,1,0],
+  [0,0,0,0]
+]
+indexTest=[
+  [0,0,0,0],
+  [0,3,3,0],
+  [0,3,3,0],
+  [0,0,0,0]
+]
+/*
+testFinding(matrixQ)==indexTest?console.log('Fine'):consoleMatrix(matrixQ,'testing');consoleMatrix(testFinding(matrixQ),'test variant')
+*/

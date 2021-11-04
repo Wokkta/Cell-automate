@@ -1,10 +1,9 @@
-console.log(200))
 console.clear();
 let cells = [
   [0, 0, 0, 0, 0],
-  [0, 1, 0, 0, 0],
-  [0, 1, 1, 1, 0],
-  [0, 0, 0, 0, 0],
+  [0, 0, 1, 0, 0],
+  [0, 0, 1, 0, 0],
+  [0, 0, 1, 0, 0],
   [0, 0, 0, 0, 0]
 ];
 
@@ -17,37 +16,44 @@ function showCells(matrix, element) {
     for (let j = 0; j < matrix[i].length; j++) {
       element.innerHTML += matrix[i][j];
     }
+  }
+}
 
+function consoleMatrix(matrix, matrixName) {
+  console.log(matrixName);
+  for (let i = 0; i < matrix.length; i++) {
+    console.log(matrix[i], `row ${i}`);
   }
 }
-function consoleMatrix(matrix,matrixName) {
-  console.log(matrixName)
-  for (let i=0;i<matrix.length;i++){
-    console.log(matrix[i],`row ${i}`)
-  }
-}
+
 function findingNeibors(i, j, matrix) {
-
-  let sum = 0;
   let previousI = 0;
-  i - 1 < 0 ? (previousI = matrix.length - 1) : (previousI = i - 1);
+  if (i == 0) {
+    previousI = matrix.length - 1;
+  } else {
+    previousI = i - 1;
+  }
   let previousJ = 0;
-  j - 1 < 0 ? (previousJ = matrix[i].length - 1) : (previousI = j - 1);
+  if (j == 0) {
+    previousJ = matrix[i].length - 1;
+  } else {
+    previousJ = j - 1;
+  }
   let nextI = 0;
   i + 1 > matrix.length - 1 ? (nextI = 0) : (nextI = i + 1);
   let nextJ = 0;
   j + 1 > matrix[i].length - 1 ? (nextJ = 0) : (nextJ = j + 1);
-  return [previousI, previousJ, i, j, nextI, nextJ]
+  return [previousI, previousJ, i, j, nextI, nextJ];
 }
 
 function summar(indexses, matrix) {
-  previousI = indexses[0]
-  previousJ = indexses[1]
-  indexI = indexses[2]
-  indexJ = indexses[3]
-  nextI = indexses[4]
-  nextJ = indexses[5]
-  sum =
+  let previousI = indexses[0];
+  let previousJ = indexses[1];
+  let indexI = indexses[2];
+  let indexJ = indexses[3];
+  let nextI = indexses[4];
+  let nextJ = indexses[5];
+  let sum =
     matrix[previousI][previousJ] +
     matrix[previousI][indexJ] +
     matrix[previousI][nextJ] +
@@ -56,60 +62,60 @@ function summar(indexses, matrix) {
     matrix[nextI][previousJ] +
     matrix[nextI][indexJ] +
     matrix[nextI][nextJ];
-  return sum
+  return sum;
 }
 
-function iteration2d(matrix,element) {
-  nextMatrix=[]
+function iteration2d(matrix, element) {
+  let nextMatrix = [];
   for (let i = 0; i < cells.length; i++) {
-    row=[]
+    let row = [];
     for (let j = 0; j < cells[i].length; j++) {
-      neigbr = summar(findingNeibors(i, j, matrix), matrix);
+      let neigbr = summar(findingNeibors(i, j, matrix), matrix);
       switch (neigbr) {
         case 0:
-          row.push(0)
+          //testing
+          row.push(0);
           break;
         case 1:
-          row.push(0)
+          row.push(0);
           break;
         case 2:
+          row.push(matrix[i][j]);
+          break;
+        case 3:
+          row.push(1);
           break;
         default:
-          row.push(1)
+          row.push(0);
       }
     }
-    nextMatrix.push(row)
+    nextMatrix.push(row);
+  }
+  showCells(matrix, element);
+  consoleMatrix(matrix,'matrix')
+  setTimeout(iteration2d(nextMatrix, element), 10000);
+  return nextMatrix;
+}
 
-  }
-  showCells(matrix,element)
-  return nextMatrix
-}
-consoleMatrix(iteration2d(cells,el),'Matrix');
+consoleMatrix(cells, "start");
+consoleMatrix(iteration2d(cells, el), "step 1");
+consoleMatrix(iteration2d(iteration2d(cells, el), el), "step 2");
+consoleMatrix(
+  iteration2d(iteration2d(iteration2d(cells, el), el), el),
+  "step 3"
+);
+
 console.log("end");
-function testFinding(matrix){
-  indexesMatrix=[]
-  for(let i=0;i<matrix.length;i++){
-    row=[]
-    for (let j=0;j<matrix[i].length;j++){
-      summ=summar(findingNeibors(i, j, matrix), matrix);
-      row.push(summ)
+
+function testFinding(matrix) {
+  let indexesMatrix = [];
+  for (let i = 0; i < matrix.length; i++) {
+    let row = [];
+    for (let j = 0; j < matrix[i].length; j++) {
+      let summ = summar(findingNeibors(i, j, matrix), matrix);
+      row.push(summ);
     }
-    indexesMatrix.push(row)
+    indexesMatrix.push(row);
   }
-  return indexesMatrix
+  return indexesMatrix;
 }
-matrixQ=[
-  [0,0,0,0],
-  [0,1,1,0],
-  [0,1,1,0],
-  [0,0,0,0]
-]
-indexTest=[
-  [0,0,0,0],
-  [0,3,3,0],
-  [0,3,3,0],
-  [0,0,0,0]
-]
-/*
-testFinding(matrixQ)==indexTest?console.log('Fine'):consoleMatrix(matrixQ,'testing');consoleMatrix(testFinding(matrixQ),'test variant')
-*/

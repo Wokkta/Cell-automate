@@ -3,22 +3,16 @@ document.body.appendChild(el);
 
 //examples of using
 /*
-const Automate=new CellularAutomate({
-	rules:'life',
-	binarity:1,
-	colors:['white','black'],
-	tor:1,
-	element:el
-})
-Automate.RandomMatrix =[8,8]
-let cells=Automate.getSetedMatrix
-*/
-/*
-matrixes = []
-matrixes.push(cells)
-for (let iteration = 0; iteration < 50; iteration++) {
-	matrixes.push(iteration2d(matrixes[matrixes.length - 1], el, iteration));
-};
+let trying=new twoDimentionalCellularAutomate({
+    rules:'life',
+    binarity:1,
+    colors:['white','black'],
+    tor:1,
+    element:el
+    })
+trying.RandomMatrix=[10,10]
+
+trying.showCells()
 */
 class CellularAutomate {
 	constructor(options) {
@@ -27,8 +21,8 @@ class CellularAutomate {
 		this.colors = options.colors // rgb(),'white',['white','black']
 		this.tor = options.tor // 1 or 0
 		this.SetedMatrix = []
-		this.$element=options.element // DOM element
-		this.dimentions=options.dimentions // how mush dimentions 1,2...
+		this.element = options.element // DOM element
+		this.dimentions = options.dimentions // how mush dimentions 1,2...
 	}
 	get infoSelf() {
 		return [
@@ -37,17 +31,35 @@ class CellularAutomate {
 			['colors', this.colors],
 			['tor', this.tor],
 			['SetedMatrix', this.SetedMatrix],
-			["element",this.element],
-			['dimentions',this.dimentions]
+			["element", this.$element],
+			['dimentions', this.dimentions]
 		]
 	}
-	set RandomMatrix(argument) { //[x,y] or string
-		// set 2 dimentional or 1 dimentional matrix
-		if (typeof(argument)=='string'){
-			this.SetedMatrix=argument
-			el.innerHTML = argument;
-			return this.SetedMatrix
+	get getSetedMatrix() {
+		return this.SetedMatrix
+	}
+}
+class oneDimentionalCellularAutomate extends CellularAutomate {
+	constructor(options) {
+		super(options),
+			this.SetedMatrix = '',
+			this.dimentions = 1
+	}
+	set RandomMatrix(length) {
+		this.SetedMatrix = ''
+		for (let i = 0; i < length; i++) {
+			Math.floor(Math.random() * 2) ? this.SetedMatrix += '*' : this.SetedMatrix += '-'
 		}
+
+	}
+}
+class twoDimentionalCellularAutomate extends CellularAutomate {
+	constructor(options) {
+		super(options),
+			this.SetedMatrix = [],
+			this.dimentions = 2
+	}
+	set RandomMatrix(argument) { //[x,y]
 		for (let i = 0; i < argument[0]; i++) {
 			let row = []
 			for (let j = 0; j < argument[1]; j++) {
@@ -56,18 +68,14 @@ class CellularAutomate {
 			this.SetedMatrix.push(row)
 		}
 	}
-	get getSetedMatrix() {
-		return this.SetedMatrix
-	}
-}
-class oneDimentionalCellularAutomate extends CellularAutomate{
-	constructor(options){
-		super(options.binarity),
-		super(options.colors),
-		super(options.tor),
-		super(options.$element),
-		this.SetedMatrix=options.SetedMatrix
-		this.dimentions=1
+	showCells = function() {
+		this.element.innerHTML = "";
+		for (let i = 0; i < this.SetedMatrix.length; i++) {
+			this.element.innerHTML += "\n";
+			for (let j = 0; j < this.SetedMatrix[i].length; j++) {
+				this.element.innerHTML += this.SetedMatrix[i][j];
+			}
+		}
 	}
 }
 /*
@@ -81,6 +89,7 @@ Automate.RandomMatrix =[8,8]
 let cells=Automate.getSetedMatrix
 */
 console.clear();
+/*
 function showCells(matrix, element) {
 	element.innerHTML = "";
 	for (let i = 0; i < matrix.length; i++) {
@@ -90,12 +99,14 @@ function showCells(matrix, element) {
 		}
 	}
 }
+*/
 function consoleMatrix(matrix, matrixName, counter) {
 	console.log(matrixName, 'iteration ', counter);
 	for (let i = 0; i < matrix.length; i++) {
 		console.log(matrix[i], `row ${i}`);
 	}
 }
+
 function findingNeibors(i, j, matrix) {
 	let previousI = 0;
 	if (i == 0) {
@@ -115,6 +126,7 @@ function findingNeibors(i, j, matrix) {
 	j + 1 > matrix[i].length - 1 ? (nextJ = 0) : (nextJ = j + 1);
 	return [previousI, previousJ, i, j, nextI, nextJ];
 }
+
 function summar(indexses, matrix) {
 	let previousI = indexses[0];
 	let previousJ = indexses[1];
@@ -133,6 +145,7 @@ function summar(indexses, matrix) {
 		matrix[nextI][nextJ];
 	return sum;
 }
+
 function iteration2d(matrix, element, counter) {
 	let nextMatrix = [];
 	for (let i = 0; i < cells.length; i++) {
@@ -163,6 +176,7 @@ function iteration2d(matrix, element, counter) {
 	consoleMatrix(matrix, 'matrix', counter)
 	return nextMatrix;
 }
+
 function testFinding(matrix) {
 	let indexesMatrix = [];
 	for (let i = 0; i < matrix.length; i++) {
@@ -176,28 +190,21 @@ function testFinding(matrix) {
 	return indexesMatrix;
 }
 let iteration1d = () => {
-  let newCells = "";
-  for (let i = 0; i < cells.length; i++) {
-    let current = "";
-    let left = "";
-    let right = "";
-    current = cells[i];
-    i === 0 ? (left = cells[cells.length - 1]) : (left = cells[i - 1]);
-    i === cells.length - 1 ? (right = cells[0]) : (right = cells[i + 1]);
-    let steck = left + current + right;
-    //console.log(steck);
-    newCells += rules[steck];
-  }
-  let el = document.createElement("div");
-  document.body.appendChild(el);
-  el.innerHTML = newCells;
-  cells = newCells;
-  setTimeout(iteration1d, 400);
+	let newCells = "";
+	for (let i = 0; i < cells.length; i++) {
+		let current = "";
+		let left = "";
+		let right = "";
+		current = cells[i];
+		i === 0 ? (left = cells[cells.length - 1]) : (left = cells[i - 1]);
+		i === cells.length - 1 ? (right = cells[0]) : (right = cells[i + 1]);
+		let steck = left + current + right;
+		//console.log(steck);
+		newCells += rules[steck];
+	}
+	let el = document.createElement("div");
+	document.body.appendChild(el);
+	el.innerHTML = newCells;
+	cells = newCells;
+	setTimeout(iteration1d, 400);
 };
-const Automate=new CellularAutomate({
-	rules:'life',
-	binarity:1,
-	colors:['white','black'],
-	tor:1
-})
-Automate.RandomMatrix ='-------------------------------------------------------*-------------------------------------------------------'

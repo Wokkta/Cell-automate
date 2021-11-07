@@ -7,7 +7,8 @@ const Automate=new CellularAutomate({
 	rules:'life',
 	binarity:1,
 	colors:['white','black'],
-	tor:1
+	tor:1,
+	element:el
 })
 Automate.RandomMatrix =[8,8]
 let cells=Automate.getSetedMatrix
@@ -26,6 +27,8 @@ class CellularAutomate {
 		this.colors = options.colors // rgb(),'white',['white','black']
 		this.tor = options.tor // 1 or 0
 		this.SetedMatrix = []
+		this.$element=options.element // DOM element
+		this.dimentions=options.dimentions // how mush dimentions 1,2...
 	}
 	get infoSelf() {
 		return [
@@ -33,13 +36,16 @@ class CellularAutomate {
 			['binarity', this.binarity],
 			['colors', this.colors],
 			['tor', this.tor],
-			['SetedMatrix', this.SetedMatrix]
+			['SetedMatrix', this.SetedMatrix],
+			["element",this.element],
+			['dimentions',this.dimentions]
 		]
 	}
 	set RandomMatrix(argument) { //[x,y] or string
+		// set 2 dimentional or 1 dimentional matrix
 		if (typeof(argument)=='string'){
 			this.SetedMatrix=argument
-			el.innerHTML = cells;
+			el.innerHTML = argument;
 			return this.SetedMatrix
 		}
 		for (let i = 0; i < argument[0]; i++) {
@@ -54,6 +60,16 @@ class CellularAutomate {
 		return this.SetedMatrix
 	}
 }
+class oneDimentionalCellularAutomate extends CellularAutomate{
+	constructor(options){
+		super(options.binarity),
+		super(options.colors),
+		super(options.tor),
+		super(options.$element),
+		this.SetedMatrix=options.SetedMatrix
+		this.dimentions=1
+	}
+}
 /*
 const Automate=new CellularAutomate({
 	rules:'life',
@@ -65,7 +81,6 @@ Automate.RandomMatrix =[8,8]
 let cells=Automate.getSetedMatrix
 */
 console.clear();
-let el = document.querySelector("div");
 function showCells(matrix, element) {
 	element.innerHTML = "";
 	for (let i = 0; i < matrix.length; i++) {

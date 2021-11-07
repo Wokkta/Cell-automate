@@ -190,3 +190,36 @@ let iteration1d = () => {
 	setTimeout(iteration1d, 400);
 };
 
+
+function showCellsInColors(box,matrix,sizes,colors) {// document.body,SetedMatrix,[10,10],['black','white']
+	box.style.display='grid';
+	box.style.gridTemplateRows=` repeat(${sizes[0]}, 1fr)`;
+	box.style.gridTemplateColumns=` repeat(${sizes[1]}, 1fr)`;
+	box.style.gridGap='10px';
+}
+function setingColors(box,matrix,sizes,colors) {// document.body,SetedMatrix,[10,10],['black','white']
+	let counter=0
+	for(let i=0;i<sizes[0] ; i++){
+		for(let j=0;j<sizes[1]; j++){
+			counter+=1
+			if(matrix[i][j]){
+				document.querySelector(` div:nth-child(${counter})`).style.backgroundColor='red';
+			}
+			else{
+				document.querySelector(` div:nth-child(${counter})`).style.backgroundColor='black';	
+			}
+		}
+	}
+}
+/* input
+let trying=new twoDimentionalCellularAutomate({
+    rules:'life',
+    binarity:1,
+    colors:['white','black'],
+    tor:1,
+    element:el
+    })
+trying.RandomMatrix=[10,10]
+showCellsInColors(document.body,trying.SetedMatrix,[10,10],['black','white'])
+setingColors(document.body,trying.SetedMatrix,[10,10],['black','white'])
+*/

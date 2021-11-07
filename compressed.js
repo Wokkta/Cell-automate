@@ -1,4 +1,5 @@
-
+let el = document.createElement("div");
+document.body.appendChild(el);
 
 //examples of using
 /*
@@ -35,10 +36,15 @@ class CellularAutomate {
 			['SetedMatrix', this.SetedMatrix]
 		]
 	}
-	set RandomMatrix(array) { //[x,y]
-		for (let i = 0; i < array[0]; i++) {
+	set RandomMatrix(argument) { //[x,y] or string
+		if (typeof(argument)=='string'){
+			this.SetedMatrix=argument
+			el.innerHTML = cells;
+			return this.SetedMatrix
+		}
+		for (let i = 0; i < argument[0]; i++) {
 			let row = []
-			for (let j = 0; j < array[1]; j++) {
+			for (let j = 0; j < argument[1]; j++) {
 				row.push(Math.floor(Math.random() * 2))
 			}
 			this.SetedMatrix.push(row)
@@ -141,13 +147,7 @@ function iteration2d(matrix, element, counter) {
 	setTimeout(showCells(matrix, element), 5000);
 	consoleMatrix(matrix, 'matrix', counter)
 	return nextMatrix;
-}/*
-matrixes = []
-matrixes.push(cells)
-for (let iteration = 0; iteration < 50; iteration++) {
-	matrixes.push(iteration2d(matrixes[matrixes.length - 1], el, iteration));
-};
-*/
+}
 function testFinding(matrix) {
 	let indexesMatrix = [];
 	for (let i = 0; i < matrix.length; i++) {
@@ -160,3 +160,29 @@ function testFinding(matrix) {
 	}
 	return indexesMatrix;
 }
+let iteration1d = () => {
+  let newCells = "";
+  for (let i = 0; i < cells.length; i++) {
+    let current = "";
+    let left = "";
+    let right = "";
+    current = cells[i];
+    i === 0 ? (left = cells[cells.length - 1]) : (left = cells[i - 1]);
+    i === cells.length - 1 ? (right = cells[0]) : (right = cells[i + 1]);
+    let steck = left + current + right;
+    //console.log(steck);
+    newCells += rules[steck];
+  }
+  let el = document.createElement("div");
+  document.body.appendChild(el);
+  el.innerHTML = newCells;
+  cells = newCells;
+  setTimeout(iteration1d, 400);
+};
+const Automate=new CellularAutomate({
+	rules:'life',
+	binarity:1,
+	colors:['white','black'],
+	tor:1
+})
+Automate.RandomMatrix ='-------------------------------------------------------*-------------------------------------------------------'

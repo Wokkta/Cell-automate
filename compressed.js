@@ -57,9 +57,11 @@ class twoDimentionalCellularAutomate extends CellularAutomate {
 	constructor(options) {
 		super(options),
 			this.SetedMatrix = [],
-			this.dimentions = 2
+			this.dimentions = 2,
+			this.sizes=[0,0]
 	}
 	set RandomMatrix(argument) { //[x,y]
+		this.sizes=[argument[0],argument[1]]
 		for (let i = 0; i < argument[0]; i++) {
 			let row = []
 			for (let j = 0; j < argument[1]; j++) {
@@ -78,28 +80,7 @@ class twoDimentionalCellularAutomate extends CellularAutomate {
 		}
 	}
 }
-/*
-const Automate=new CellularAutomate({
-	rules:'life',
-	binarity:1,
-	colors:['white','black'],
-	tor:1
-})
-Automate.RandomMatrix =[8,8]
-let cells=Automate.getSetedMatrix
-*/
 console.clear();
-/*
-function showCells(matrix, element) {
-	element.innerHTML = "";
-	for (let i = 0; i < matrix.length; i++) {
-		element.innerHTML += "\n";
-		for (let j = 0; j < matrix[i].length; j++) {
-			element.innerHTML += matrix[i][j];
-		}
-	}
-}
-*/
 function consoleMatrix(matrix, matrixName, counter) {
 	console.log(matrixName, 'iteration ', counter);
 	for (let i = 0; i < matrix.length; i++) {
@@ -208,3 +189,4 @@ let iteration1d = () => {
 	cells = newCells;
 	setTimeout(iteration1d, 400);
 };
+

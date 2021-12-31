@@ -1,10 +1,3 @@
-# Cell-automate
-What is it?
-
-  It is an generator of cellular automates
-  
-About the progress
-
-    Did 2d tor version,but where is problem with not virtual DOM,which makes speed of iterations so low.
-  
-    Soon I will rebuild it by using React,to make iterations work faster and code more simple
+  Генератор клеточных автоматов,с демонстрацией их поколений.
+  Сейчас есть рабочая 1d (R^1) и 2d (R^2) версии, с настройкой правил автоматов,их взаимодействий и тп.
+  проект дорабатывается для 3d(R^3), новых взаимодействий. Планируется перенос на React для быстродействия проекта,а также создание удобного UI
